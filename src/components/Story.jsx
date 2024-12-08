@@ -1,6 +1,8 @@
 import  {useRef} from 'react'
 import Animated from './Animated'
+import Button from './Button'
 import gsap from 'gsap'
+import RoundedCorners from './RoundedCorners'
 
 const Story = () => {
     const frameRef = useRef('')
@@ -33,7 +35,7 @@ const Story = () => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateX = ((y - centerY) / centerY) * -30;
         const rotateY = ((x - centerX) / centerX) * 10;
 
         gsap.to(element, {
@@ -53,7 +55,7 @@ const Story = () => {
 
         <div className='relative size-full'>
             <Animated
-                title="The st<b>o</b>ry of <br/> a hidden <br/> real<b>m</b>"
+                title="The st<b>o</b>ry of <br/> a hidden real<b>m</b>"
                 sectionId="#story"
                 containerClass="mt-5 pointer-events-none mix-blend-difference relative z-10"/>
             
@@ -71,6 +73,16 @@ const Story = () => {
                         />
                     </div>
                 </div>
+                <RoundedCorners/>
+            </div>
+        </div>
+        <div className='-mt-60 flex w-full justify-center md:-mt-64 md:me-44 md:justify-end'>
+            <div className='flex h-full w-fit flex-col items-center md:items-start'>
+                <p className='mt-3 max-w-sm text-center font-circular-web text-violet-50 md:text-start '>Where realms converge, lies Zentry and the bundless pillar. Discover its secrets and shape your fate amidst infinite opportunities.
+                </p>
+                <Button id="realm-button" title="discover prologue"
+                    containerClass="mt-5"
+                />
             </div>
         </div>
       </div>
