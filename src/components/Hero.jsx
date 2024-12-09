@@ -93,10 +93,18 @@ const Hero = () => {
   const isSmallScreen = window.innerWidth <= 768; // Adjust this value as per your requirement
 
   useEffect(() => {
-    if (isSmallScreen && videoRef.current) {
-      videoRef.current.play(); // Autoplay the video on smaller screens
+    if (isSmallScreen() && videoRef.current) {
+      videoRef.current.play();
     }
-  }, [isSmallScreen, currentIndex]);
+    const handleResize = () => {
+      if (isSmallScreen() && videoRef.current) {
+        videoRef.current.play();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [currentIndex]);
 
   return (
     <div className='relative h-dvh w-screen overflow-x-hidden'>
