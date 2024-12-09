@@ -1,4 +1,4 @@
-import { useState, useRef} from 'react'
+import { useState, useRef, useEffect} from 'react'
 import Button from './Button';
 import { TiLocationArrow } from 'react-icons/ti';
 import { useGSAP } from '@gsap/react';
@@ -15,6 +15,7 @@ const Hero = () => {
     const [loadedVideos, setLoadedVideos] = useState(0)
 
     const totalVideos = 4;
+    // const videoRef = useRef(null)
     const nextVideoRef = useRef(null);
 
     const handleVideoLoad = () => {
@@ -37,6 +38,22 @@ const Hero = () => {
         }
         
     }
+
+    // const isSmallScreen = () => window.innerWidth <= 768;
+
+    // useEffect(() => {
+    //     if(isSmallScreen && videoRef.current) {
+    //         videoRef.current.play();
+    //     }
+    //     const handleResize = () => {
+    //         if(isSmallScreen && videoRef.current) {
+    //              videoRef.current.play();
+    //         }
+    //     }
+
+    //     window.addEventListener("resize", handleResize)
+    //     return () => window.removeEventListener("resize", handleResize)
+    //   },[currentIndex])
 
     // useEffect(() => { 
     //     if(loadedVideos === totalVideos - 1) {
@@ -126,6 +143,7 @@ const Hero = () => {
                 onLoadedData={handleVideoLoad}
             />
             <video
+                // ref={videoRef}
                 src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
                 loop
                 autoPlay
