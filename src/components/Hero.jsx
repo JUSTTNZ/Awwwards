@@ -55,12 +55,6 @@ const Hero = () => {
     //     return () => window.removeEventListener("resize", handleResize)
     //   },[currentIndex])
 
-    // useEffect(() => { 
-    //     if(loadedVideos === totalVideos - 1) {
-    //         setIsLoading(false)
-    //     }
-    // }, [loadedVideos])
-
     useGSAP(()=> {
         if(hasClicked) {
             gsap.set('#next-video', {visibility: 'visible'})
@@ -106,21 +100,27 @@ const Hero = () => {
     const getVideoSrc = (index) => `/videos/hero-${index}.mp4`;
     
      // Detect screen width to decide whether to autoplay videos on smaller screens
-  const isSmallScreen = window.innerWidth <= 768; // Adjust this value as per your requirement
+    const isSmallScreen = window.innerWidth <= 768; // Adjust this value as per your requirement
 
-  useEffect(() => {
-    if (isSmallScreen && videoRef.current) {
-      videoRef.current.play();
-    }
-    const handleResize = () => {
-      if (isSmallScreen && videoRef.current) {
+    useEffect(() => {
+        if (isSmallScreen && videoRef.current) {
         videoRef.current.play();
-      }
-    };
+        }
+        const handleResize = () => {
+        if (isSmallScreen && videoRef.current) {
+            videoRef.current.play();
+        }
+        };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [currentIndex, isSmallScreen]);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [currentIndex, isSmallScreen]);
+
+    useEffect(() => { 
+        if(loadedVideos === totalVideos - 1) {
+            setIsLoading(false)
+        }
+    }, [loadedVideos])
 
   return (
     <div className='relative h-dvh w-screen overflow-x-hidden'>
@@ -135,6 +135,7 @@ const Hero = () => {
         </div>
       )}
       <div id="video-frame" className='relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75'>
+      {!isSmallScreen ? 
         <div>
             <div className='mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg'>
                 <div onClick={handleMiniVideoClick} className='origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100'>
@@ -169,6 +170,17 @@ const Hero = () => {
                 onLoadedData={handleVideoLoad}
             />
         </div>
+       :
+       <video
+                ref={videoRef}
+                src={getVideoSrc(1)}
+                loop
+                autoPlay
+                muted
+                className='absolute left-0 top-0 size-full object-cover object-center'
+                onLoadedData={handleVideoLoad}
+            />
+       }
         <h1 className='special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75'>G<b>a</b>ming</h1>
         <div className='absolute left-0 top-0 z-40 size-full'>
             <div className='mt-24 px-5 sm:px-10'>
