@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef} from 'react'
 import Button from './Button';
 import { TiLocationArrow } from 'react-icons/ti';
 import { useGSAP } from '@gsap/react';
@@ -10,7 +10,8 @@ gsap.registerPlugin(ScrollTrigger)
 const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(1);
     const [hasClicked, setHasClicked] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isVideoReady, setIsVideoReady] = useState(false)
     const [loadedVideos, setLoadedVideos] = useState(0)
 
     const totalVideos = 4;
@@ -18,21 +19,30 @@ const Hero = () => {
 
     const handleVideoLoad = () => {
         setLoadedVideos((prev) => prev + 1)
+
+        if(currentIndex === 1) {
+            setIsLoading(false)
+        }
+
+        setIsVideoReady(true)
     }
 
     const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
 
     const handleMiniVideoClick = () => {
-        setHasClicked(true);
-
-        setCurrentIndex(upcomingVideoIndex);
+        if(isVideoReady) {
+            setHasClicked(true);
+            setIsVideoReady(false)
+            setCurrentIndex(upcomingVideoIndex);
+        }
+        
     }
 
-    useEffect(() => { 
-        if(loadedVideos === totalVideos - 1) {
-            setIsLoading(false)
-        }
-    }, [loadedVideos])
+    // useEffect(() => { 
+    //     if(loadedVideos === totalVideos - 1) {
+    //         setIsLoading(false)
+    //     }
+    // }, [loadedVideos])
 
     useGSAP(()=> {
         if(hasClicked) {
