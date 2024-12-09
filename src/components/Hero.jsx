@@ -15,6 +15,7 @@ const Hero = () => {
     const [loadedVideos, setLoadedVideos] = useState(0)
 
     const totalVideos = 4;
+    const videoRef = useRef(null); 
     const nextVideoRef = useRef(null);
 
     const handleVideoLoad = () => {
@@ -87,6 +88,15 @@ const Hero = () => {
         })
     })
     const getVideoSrc = (index) => `/videos/hero-${index}.mp4`;
+    
+     // Detect screen width to decide whether to autoplay videos on smaller screens
+  const isSmallScreen = window.innerWidth <= 768; // Adjust this value as per your requirement
+
+  useEffect(() => {
+    if (isSmallScreen && videoRef.current) {
+      videoRef.current.play(); // Autoplay the video on smaller screens
+    }
+  }, [isSmallScreen, currentIndex]);
 
   return (
     <div className='relative h-dvh w-screen overflow-x-hidden'>
