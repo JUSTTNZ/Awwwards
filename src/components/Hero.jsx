@@ -15,7 +15,7 @@ const Hero = () => {
     const [loadedVideos, setLoadedVideos] = useState(0)
 
     const totalVideos = 4;
-    // const videoRef = useRef(null)
+    const videoRef = useRef(null); 
     const nextVideoRef = useRef(null);
 
     const handleVideoLoad = () => {
@@ -104,6 +104,23 @@ const Hero = () => {
         })
     })
     const getVideoSrc = (index) => `/videos/hero-${index}.mp4`;
+    
+     // Detect screen width to decide whether to autoplay videos on smaller screens
+  const isSmallScreen = window.innerWidth <= 768; // Adjust this value as per your requirement
+
+  useEffect(() => {
+    if (isSmallScreen && videoRef.current) {
+      videoRef.current.play();
+    }
+    const handleResize = () => {
+      if (isSmallScreen && videoRef.current) {
+        videoRef.current.play();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [currentIndex, isSmallScreen]);
 
   return (
     <div className='relative h-dvh w-screen overflow-x-hidden'>
@@ -143,7 +160,7 @@ const Hero = () => {
                 onLoadedData={handleVideoLoad}
             />
             <video
-                // ref={videoRef}
+                ref={videoRef}
                 src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
                 loop
                 autoPlay
