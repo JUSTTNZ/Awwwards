@@ -173,7 +173,7 @@ const Hero = () => {
        :
        <video
                 ref={videoRef}
-                src={getVideoSrc(1)}
+                src={getVideoSrc(2)}
                 loop
                 autoPlay
                 muted
