@@ -116,11 +116,11 @@ const Hero = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, [currentIndex, isSmallScreen]);
 
-    useEffect(() => { 
-        if(loadedVideos === totalVideos - 1) {
-            setIsLoading(false)
-        }
-    }, [loadedVideos])
+    //useEffect(() => { 
+    //if(loadedVideos === totalVideos - 1) {
+            //setIsLoading(false)
+        //}
+    //}, [loadedVideos])
 
   return (
     <div className='relative h-dvh w-screen overflow-x-hidden'>
