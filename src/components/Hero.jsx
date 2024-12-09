@@ -144,6 +144,7 @@ const Hero = () => {
                 onLoadedData={handleVideoLoad}
             />
             <video
+                ref={videoRef}
                 src={getVideoSrc(currentIndex === totalVideos - 1 ? 1 : currentIndex)}
                 loop
                 autoPlay
