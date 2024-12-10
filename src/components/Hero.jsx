@@ -13,6 +13,7 @@ const Hero = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isVideoReady, setIsVideoReady] = useState(false)
     const [loadedVideos, setLoadedVideos] = useState(0)
+    const [showModal, setShowModal] = useState(false)
 
     const totalVideos = 4;
     const videoRef = useRef(null); 
@@ -122,8 +123,17 @@ const Hero = () => {
         }
     }, [loadedVideos])
 
+    useEffect(() => {
+        const modalTimer = setTimeout(() => {
+            if(!isLoading) {
+                setShowModal(true)
+            }
+        },5000);
+        return () => clearTimeout(modalTimer);
+    },[isLoading]);
+
   return (
-    <div className='relative h-dvh w-screen overflow-x-hidden'>
+    <div className=''>
     
       {isLoading && (
         <div className='flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50'>
@@ -134,6 +144,24 @@ const Hero = () => {
             </div>
         </div>
       )}
+      {showModal && (
+        <div className='fixed top-1/3 flex z-50 mx-6 rounded-md scale-100 md:mx-[30%] bg-[#d4d4d4] px-4  text-black '>
+        <div className='mx-8 my-6 space-y-8 font-circular-web'>
+            <div>
+                <p className='flex text-start'>For the best experience, we recommend using a larger screen like tablet, laptop, or monitor. Some videos and animations may not display optimally on mobile devices, but on a bigger screen, you'll enjoy every detail as intended!</p>
+            </div>
+            <div>
+                <p>And also for an immersive experience, explore the website with audio! <br /> Click the button to turn on the sound and enjoy the journey in full effect.</p>
+                <div className=' flex justify-center items-center gap-6 mt-8 text-white'>
+                    <span className='peer bg-black py-2 px-5 rounded-md focus:ring-2 focus:ring-blue-400 hover:bg-blue-300 hover:text-white transition duration-500 ease-in-out'>Yes</span>
+                    <span className='bg-black py-2 px-5 rounded-md  hover:bg-blue-300 peer-focus:bg-gray-400 peer-focus:text-black hover:text-white transition duration-500 ease-in-out'>No</span>
+                </div>
+                
+            </div>
+        </div>
+        </div>
+      )}
+      <div className='relative h-dvh w-screen overflow-x-hidden'>
       <div id="video-frame" className='relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75'>
       {!isSmallScreen ? 
         <div>
@@ -195,6 +223,8 @@ const Hero = () => {
       </div>
         <h1 className='special-font hero-heading absolute bottom-5 right-5 text-black'>G<b>a</b>ming</h1>
     </div>
+      </div>
+      
   )
 }
 
