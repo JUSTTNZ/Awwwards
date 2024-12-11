@@ -146,9 +146,7 @@ const Hero = ({ setIsAudioPlaying, toggleAudioIndicator, setIsIndicatorActive, i
     const isSmallScreen = window.innerWidth <= 768; // Adjust this value as per your requirement
 
     useEffect(() => {
-        if (isSmallScreen && videoRef.current) {
-            videoRef.current.play();
-        }
+        
         const handleResize = () => {
         if (isSmallScreen && videoRef.current) {
             videoRef.current.play();
