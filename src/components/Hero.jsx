@@ -180,17 +180,26 @@ const Hero = ({ setIsAudioPlaying, toggleAudioIndicator, setIsIndicatorActive, i
         </div>
       )}
       {showModal && (
-        <div className='fixed top-1/3 flex z-50 mx-6 rounded-md scale-100 md:mx-[30%] bg-[#d4d4d4] px-4  text-black '>
-        <div className='mx-8 my-6 space-y-8 font-circular-web'>
+        <div className='fixed top-1/3  flex z-50 mx-6 rounded-md scale-100 md:mx-[30%] bg-[#ffffffe9] px-4  text-black text-sm md:text-lg'>
+        <div className='mx-8 my-6 md:space-y-8 space-y-4 font-circular-web'>
             <div>
-                <p className='flex text-start'>For the best experience, we recommend using a larger screen like tablet, laptop, or monitor. Some videos and animations may not display optimally on mobile devices, but on a bigger screen, you'll enjoy every detail as intended!</p>
+                <p className={`flex text-start ${isSmallScreen ? "block" : "hidden"}`}>For the best experience, we recommend using a larger screen like tablet, laptop, or monitor. Some videos and animations may not display optimally on mobile devices, but on a bigger screen, you'll enjoy every detail as intended!</p>
             </div>
             <div>
-                <p>And also for an immersive experience, explore the website with audio! <br /> Click the button to turn on the sound and enjoy the journey in full effect.</p> 
+                <p>Also for an immersive experience, explore the website with audio! <br /> Click the button to turn on the sound and enjoy the journey in full effect.</p> 
 
                 <div className='flex justify-center items center mt-4 gap-8'>
-                    <button onClick={() => {handleAudioToggle("yes"); handleYesClick }} disabled={hasClickedYes} className={`bg-black py-2 px-5 text-white rounded transition duration-500 ease-in-out cursor-pointer ${selected === "yes" && 'bg-blue-300'}`}>Yes</button>
-                    <button onClick={() => {handleAudioToggle("no"); handleNoClick}} disabled={hasClickedNo} className={`bg-black py-2 px-5 text-white rounded transition duration-500 ease-in-out cursor-pointer ${selected === "no" && 'bg-blue-300'}`} >No</button>
+                    <button 
+                    onClick={() => {handleAudioToggle("yes"); 
+                    handleYesClick() }} 
+                    disabled={hasClickedYes} 
+                    className={`bg-black py-2 px-5 text-white rounded transition duration-500 ease-in-out cursor-pointer ${hasClickedYes ? "bg-gray-900 cursor-not-allowed" : selected === "yes" && 'bg-blue-300'}`}>Yes</button>
+
+                    <button 
+                    onClick={() => {handleAudioToggle("no"); 
+                    handleNoClick()}} 
+                    disabled={hasClickedNo} 
+                    className={`bg-black py-2 px-5 text-white rounded transition duration-500 ease-in-out cursor-pointer ${hasClickedNo ? "bg-gray-900 cursor-not-allowed" : selected === "no" && 'bg-blue-300'}`} >No</button>
                 </div>
             </div>
             <div className='flex justify-center items-center transition duration-500 ease-in-out'>
