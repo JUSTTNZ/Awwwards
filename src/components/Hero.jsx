@@ -7,13 +7,16 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 
 gsap.registerPlugin(ScrollTrigger)
-const Hero = () => {
+const Hero = ({ setIsAudioPlaying, toggleAudioIndicator, setIsIndicatorActive, isIndicatorActive }) => {
     const [currentIndex, setCurrentIndex] = useState(1);
     const [hasClicked, setHasClicked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isVideoReady, setIsVideoReady] = useState(false)
     const [loadedVideos, setLoadedVideos] = useState(0)
     const [showModal, setShowModal] = useState(false)
+    const [selected, setSelected] = useState("")
+    const [hasClickedYes, setHasClickedYes] = useState(false);
+    const [hasClickedNo, setHasClickedNo] = useState(false);
 
     const totalVideos = 4;
     const videoRef = useRef(null); 
@@ -38,6 +41,45 @@ const Hero = () => {
             setCurrentIndex(upcomingVideoIndex);
         }
         
+    }
+
+    useEffect(() => {
+        const modalTimer = setTimeout(() => {
+            if(!isLoading) {
+                // setIsAudioPlaying(false)
+                setShowModal(true)
+                
+            }
+        },1000);
+        return () => clearTimeout(modalTimer);
+       
+    },[isLoading]);
+
+    const handleAudioToggle = (option) => {
+        setSelected(option)
+        if(selected === "yes") {
+            // toggleAudioIndicator()
+            setIsAudioPlaying(true)
+            setIsIndicatorActive(true)
+            setShowModal(false)
+        }
+        else if(selected === "no"){
+            setIsAudioPlaying(false)
+            setShowModal(false)
+        }
+
+        else {
+            setShowModal(true)
+        }
+        
+    }
+
+    const handleYesClick = () => {
+        setHasClickedNo(true)
+    }
+
+    const handleNoClick = () => {
+        setHasClickedYes(true)
     }
 
     // const isSmallScreen = () => window.innerWidth <= 768;
@@ -123,14 +165,7 @@ const Hero = () => {
         //}
     //}, [loadedVideos])
 
-    useEffect(() => {
-        const modalTimer = setTimeout(() => {
-            if(!isLoading) {
-                setShowModal(true)
-            }
-        },5000);
-        return () => clearTimeout(modalTimer);
-    },[isLoading]);
+    
 
   return (
     <div className=''>
@@ -151,13 +186,18 @@ const Hero = () => {
                 <p className='flex text-start'>For the best experience, we recommend using a larger screen like tablet, laptop, or monitor. Some videos and animations may not display optimally on mobile devices, but on a bigger screen, you'll enjoy every detail as intended!</p>
             </div>
             <div>
-                <p>And also for an immersive experience, explore the website with audio! <br /> Click the button to turn on the sound and enjoy the journey in full effect.</p>
-                <div className=' flex justify-center items-center gap-6 mt-8 text-white'>
-                    <span className='peer bg-black py-2 px-5 rounded-md focus:ring-2 focus:ring-blue-400 hover:bg-blue-300 hover:text-white transition duration-500 ease-in-out'>Yes</span>
-                    <span className='bg-black py-2 px-5 rounded-md  hover:bg-blue-300 peer-focus:bg-gray-400 peer-focus:text-black hover:text-white transition duration-500 ease-in-out'>No</span>
+                <p>And also for an immersive experience, explore the website with audio! <br /> Click the button to turn on the sound and enjoy the journey in full effect.</p> 
+
+                <div className='flex justify-center items center mt-4 gap-8'>
+                    <button onClick={() => {handleAudioToggle("yes"); handleYesClick }} disabled={hasClickedYes} className={`bg-black py-2 px-5 text-white rounded transition duration-500 ease-in-out cursor-pointer ${selected === "yes" && 'bg-blue-300'}`}>Yes</button>
+                    <button onClick={() => {handleAudioToggle("no"); handleNoClick}} disabled={hasClickedNo} className={`bg-black py-2 px-5 text-white rounded transition duration-500 ease-in-out cursor-pointer ${selected === "no" && 'bg-blue-300'}`} >No</button>
                 </div>
-                
             </div>
+            <div className='flex justify-center items-center transition duration-500 ease-in-out'>
+                {selected === "yes" && <span className='text-green-500'>Click "Yes" again to play audio and exit</span>}
+                {selected === "no" && <span className='text-pink-500'>Click "No" again to exit</span>}
+            </div>
+           
         </div>
         </div>
       )}
